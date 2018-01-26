@@ -12,16 +12,19 @@ _start:
 	push eax
 
 	; define the starting amount
-	mov ecx, 1000
+	xor ecx, ecx
+	mov cx, 0x03e8
 	
 	; decrease the starting amount to handle off by 1 errors
 	sub ecx, 0x1
 
 loop3:
-	mov ebx, 0x3
+	xor ebx, ebx
+	mov bl, 0x3
 	jmp checkmod
 loop5:
-	mov ebx, 0x5
+	xor ebx, ebx
+	mov bl, 0x5
 	jmp checkmod
 reloop:
 	test ecx, ecx
@@ -51,10 +54,12 @@ printsum:
 	xor eax, eax
 	push eax
 	push 0xa
-	mov ecx, 0x4
+	xor ecx, ecx
+	mov cl, 0x4
 	mov eax, [ebp-4]
 buildsumloop:
-	mov ebx, 0xa
+	xor ebx, ebx
+	mov bl, 0xa
 	xor edx, edx
 	div ebx
 	add edx, 0x30
@@ -62,14 +67,16 @@ buildsumloop:
 	add ecx,0x4
 	test eax, eax
 	jnz buildsumloop
-	mov eax, 0x4
-	mov ebx, 0x1
+	xor eax, eax
+	xor ebx, ebx
+	mov al, 0x4
+	mov bl, 0x1
 	mov edx, ecx
 	lea ecx, [esp]
 	int 0x80
-	jmp exit
-		
-exit:
-	mov eax, 0x1
+	
+	; exit routine
+	xor eax, eax
+	mov al, 0x1
 	xor ebx, ebx
 	int 0x80
